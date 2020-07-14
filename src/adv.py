@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -33,11 +34,18 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+# Create input command parser
+def input_parser():
+    command = input("Please pick an option: n (north), s (south), w (west), e (east) ")
+    return command
+
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
+new_player = Player("Thatcher", room["outside"])
 
 # Write a loop that:
 #
@@ -49,3 +57,53 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+while True:
+    # print player's name, cur room, room des
+    print(f"{new_player.name}")
+    print(f"You are currently in the {new_player.current_room.name}")
+    print(f"{new_player.current_room.description}")
+
+    # call input for user command
+    command = input_parser()
+
+    # q for quit
+    if command == "q":
+        print("See you later!")
+        exit()
+
+    # n for north
+    if command == "n":
+        try:
+            new_player = Player("Thatcher", new_player.current_room.n_to)
+            print(f"You moved north and enter the {new_player.current_room.name} room")
+        except:
+            print(f"This is a dead end, move to another direction")
+    
+    # s for south
+    if command == "s":
+        try:
+            new_player = Player("Thatcher", new_player.current_room.s_to)
+            print(f"You moved south and enter the {new_player.current_room.name} room")
+        except:
+            print(f"This is a dead end, move to another direction")
+    
+    # e for east
+    if command == "e":
+        try:
+            new_player = Player("Thatcher", new_player.current_room.e_to)
+            print(f"You moved east and enter the {new_player.current_room.name} room")
+        except:
+            print(f"This is a dead end, move to another direction")
+    
+    # w for west
+    if command == "w":
+        try:
+            new_player = Player("Thatcher", new_player.current_room.w_to)
+            print(f"You moved west and enter the {new_player.current_room.name} room")
+        except:
+            print(f"This is a dead end, move to another direction")
+    
+    else:
+        print(f"Please enter a correct option")
+
